@@ -15,7 +15,11 @@ def test_primitive(dut):
     cocotb.start(clock.start())
 
     # expected_value = []
+
+    dut.axis_aresetn.value = 1
     yield RisingEdge(dut.in_clock)
+
+    dut.axis_aresetn.value = 0
     dut.axis_m_tready.value = 1
     dut.axis_s_tvalid.value = 1
     dut.axis_s_tdata.value = 8
@@ -23,6 +27,7 @@ def test_primitive(dut):
     yield RisingEdge(dut.in_clock)
     yield RisingEdge(dut.in_clock)
     yield RisingEdge(dut.in_clock)
+    
     
     
 
