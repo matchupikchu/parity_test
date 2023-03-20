@@ -13,12 +13,15 @@ module parity_tester_wrapper(
     axis_s_tlast);
 
 output reg a_clk;
+input             axis_aresetn;
+
+// master
 output 			 axis_m_tvalid;
 output     [7:0] axis_m_tdata;
 input 			 axis_m_tready;
 output      	 axis_m_tlast;
 
-input             axis_aresetn;
+// slave
 input             axis_s_tvalid;
 input      [7:0]  axis_s_tdata;
 output 			  axis_s_tready;
