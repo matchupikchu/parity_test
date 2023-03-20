@@ -28,7 +28,7 @@ def test_primitive(dut):
 
     dut.axis_aresetn.value = 0
     dut.axis_m_tready.value = 1
-    dut.axis_s_tvalid.value = 1
+    dut.axis_s_tvalid.value = 0
     dut.axis_s_tdata.value = 8
     dut.axis_s_tlast.value = 0
     yield RisingEdge(dut.a_clk)
@@ -36,7 +36,7 @@ def test_primitive(dut):
     dut.axis_aresetn.value = 0
     dut.axis_m_tready.value = 1
     dut.axis_s_tvalid.value = 1
-    dut.axis_s_tdata.value = 0xb
+    dut.axis_s_tdata.value = 0xa
     dut.axis_s_tlast.value = 0
     yield RisingEdge(dut.a_clk)
 
