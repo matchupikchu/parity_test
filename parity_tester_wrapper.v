@@ -11,9 +11,19 @@ module parity_tester_wrapper(
     axis_s_tready,
     axis_s_tlast);
 
+output reg in_clock;
+output 			 axis_m_tvalid;
+output     [7:0] axis_m_tdata;
+input 			 axis_m_tready;
+output      	 axis_m_tlast;
+
+input             axis_s_tvalid;
+input      [7:0]  axis_s_tdata;
+output 			  axis_s_tready;
+input 			  axis_s_tlast;
 
 parity_tester dut(
-    .inclock(in_clock), 
+    .in_clock(in_clock), 
     // master
     .axis_m_tvalid(axis_m_tvalid),
     .axis_m_tdata(axis_m_tdata),
