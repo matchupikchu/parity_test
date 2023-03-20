@@ -1,5 +1,5 @@
 module parity_tester_wrapper(
-    in_clock, 
+    a_clk, 
     // master
     axis_aresetn,
     axis_m_tvalid,
@@ -12,7 +12,7 @@ module parity_tester_wrapper(
     axis_s_tready,
     axis_s_tlast);
 
-output reg in_clock;
+output reg a_clk;
 output 			 axis_m_tvalid;
 output     [7:0] axis_m_tdata;
 input 			 axis_m_tready;
@@ -25,7 +25,7 @@ output 			  axis_s_tready;
 input 			  axis_s_tlast;
 
 parity_tester dut(
-    .in_clock(in_clock),
+    .a_clk(a_clk),
     .axis_aresetn(axis_aresetn),
     // master
     .axis_m_tvalid(axis_m_tvalid),
@@ -42,9 +42,9 @@ parity_tester dut(
 initial begin
     $dumpfile("parity_tester.vcd");
 	  $dumpvars;
-	  in_clock=0;
+	  a_clk=0;
 	  forever begin
-		  #5 in_clock=~in_clock;
+		  #5 a_clk=~a_clk;
 	  end
 end
 

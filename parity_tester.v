@@ -1,5 +1,5 @@
 module parity_tester(
-    in_clock, 
+    a_clk, 
     // master
     axis_aresetn,
     axis_m_tvalid,
@@ -13,7 +13,7 @@ module parity_tester(
     axis_s_tlast);
 
 
-input in_clock;
+input a_clk;
 
 input axis_aresetn;
 
@@ -40,7 +40,7 @@ localparam FSM_third = 3;
 
 
 
-always @(posedge in_clock)
+always @(posedge a_clk)
 begin
 
     if(axis_aresetn)
@@ -51,7 +51,7 @@ begin
 
 end
 
-always @(negedge in_clock)
+always @(negedge a_clk)
 begin
 
     if(axis_s_tvalid & axis_m_tready)
@@ -60,7 +60,7 @@ begin
         
     end
 
-    r_parity <= w_parity;
+    r_parity <= r_parity ^ w_parity;
     s_tready <= 0;
 
 end
