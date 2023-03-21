@@ -30,16 +30,19 @@ class SlaveDriver(BusDriver):
         
         for data_i in data[:-1]:
             self.bus.tvalid.value = 1
-            self.bus.data.value = data_i
+            self.bus.tdata.value = data_i
             await Timer(10, "ns")
 
 
         self.bus.tvalid.value = 1
         self.bus.tlast.value = 1
-        self.bus.data.value = data[-1]
+        self.bus.tdata.value = data[-1]
         await Timer(10, "ns")
 
         while self.bus.tready.value == 0:
+            self.bus.tvalid.value = 0
+            self.bus.tlast.value = 0
+            self.bus.tdata.value = 0
             await Timer(10, "ns")
 
 

@@ -9,6 +9,7 @@ from test_drivers import SlaveDriver, MasterDriver
 from test_monitors import SlaveMonitor, MasterMonitor
 from test_utilities import ParityTester
    
+import numpy as np
 
 @cocotb.test()
 def test_primitive(dut):
@@ -72,7 +73,7 @@ def test(dut):
     tb.start_clock()
 
     for _ in range(10):
-        x = random.randint(0, 2**16)
+        x = random.sample(range(0, 256), 10)
 
         yield tb.axis_s_driver._driver_send(x)
     

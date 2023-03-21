@@ -1,8 +1,7 @@
 
 import cocotb
-from cocotb_bus.scoreboard import Scoreboard
+# from cocotb_bus.scoreboard import Scoreboard
 from cocotb.clock import Clock
-# from cocotb.triggers import RisingEdge, Timer
 
 
 from test_drivers import MasterDriver, SlaveDriver
