@@ -1,14 +1,12 @@
-import cocotb
-from cocotb.clock import Clock
 from cocotb_bus.drivers import BusDriver
-from cocotb.triggers import RisingEdge, Timer
+from cocotb.triggers import Timer
 
 def bit_count(self):
     return bin(self).count("1")
 
 def parity_calculator(data):
     data_parity = [bit_count(i) for i in data]
-    if sum(data_parity) % 2 == 0:
+    if sum(data_parity) % 2 == 1:
         return [hex(0xff)]
     else:
         return [hex(0xab), hex(0x12), hex(0xde)]
@@ -25,6 +23,12 @@ class SlaveDriver(BusDriver):
     
     async def _driver_send(self, data, sync=False):
 
+        self.entity.axis_aresetn.value = 1
+        await Timer(10, "ns")
+
+        self.entity.axis_aresetn.value = 0
+        await Timer(10, "ns")
+
         self.log.info(f"Sending x = {data}")
         self.log.info(f"Expected value of W(x) {parity_calculator(data)}")
         
@@ -35,8 +39,13 @@ class SlaveDriver(BusDriver):
 
 
         self.bus.tvalid.value = 1
-        self.bus.tlast.value = 1
+        self.bus.tlast.value = 0
         self.bus.tdata.value = data[-1]
+        await Timer(10, "ns")
+        
+        self.bus.tvalid.value = 0
+        self.bus.tlast.value = 1
+        self.bus.tdata.value = 0
         await Timer(10, "ns")
 
         while self.bus.tready.value == 0:
@@ -61,3 +70,4 @@ class MasterDriver(BusDriver):
         self.bus.tvalid.value = 0
         self.bus.tdata.value  = 0
         self.bus.tlast.value = 0
+        yield Timer(10, "ns")

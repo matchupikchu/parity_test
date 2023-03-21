@@ -110,7 +110,7 @@ end
 
 always @(negedge a_clk)
 begin
-    if(axis_s_tvalid & axis_m_tready)
+    if((axis_s_tvalid == 1) && (axis_m_tready == 1))
     begin     
         r_data <= axis_s_tdata;
         axis_s_tready <= 0;

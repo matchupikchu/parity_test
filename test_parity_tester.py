@@ -11,7 +11,7 @@ from test_utilities import ParityTester
    
 import numpy as np
 
-@cocotb.test()
+# @cocotb.test()
 def test_primitive(dut):
 
     clock = Clock(dut.a_clk, 10, units="ns")
@@ -69,8 +69,9 @@ def test_primitive(dut):
 def test(dut):
     
     tb = ParityTester(dut)
-
+    
     tb.start_clock()
+
 
     for _ in range(10):
         x = random.sample(range(0, 256), 10)

@@ -2,7 +2,7 @@
 import cocotb
 # from cocotb_bus.scoreboard import Scoreboard
 from cocotb.clock import Clock
-
+from cocotb.triggers import Timer, RisingEdge
 
 from test_drivers import MasterDriver, SlaveDriver
 from test_monitors import MasterMonitor, SlaveMonitor
@@ -23,16 +23,26 @@ class ParityTester(TbParityTester):
     def __init__(self, dut):
         super(ParityTester, self).__init__(dut)
 
+        self.dut = dut
         self.expected_output = []
         self.dut.axis_s_tvalid.value = 0 
         self.dut.axis_m_tready.value = 1
         self.dut.axis_s_tdata.value = 0
         self.dut.axis_s_tlast.value = 0
 
-        self.axis_s_driver = SlaveDriver(self.dut, "axis_s", dut.a_clk)
         self.axis_m_driver = MasterDriver(self.dut, "axis_m", dut.a_clk)
+        self.axis_s_driver = SlaveDriver(self.dut, "axis_s", dut.a_clk)
 
+        
+        self.axis_m_monitor = MasterMonitor(self.dut, name = "axis_m",
+                                           clock = dut.a_clk)
         self.axis_s_monitor = SlaveMonitor(self.dut, name = "axis_s",
                                            clock = dut.a_clk)
+        
+        # self.axis_m_driver.set_dut_master_ready()
+
+
+
+
 
 # print(parity_calculator([2,3,6]))
