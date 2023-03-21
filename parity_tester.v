@@ -94,12 +94,14 @@ begin
                             axis_m_tdata <= 8'h00;
                             axis_m_tvalid <= 0;
                             axis_m_tlast <= 1;
+                            axis_s_tready <= 1;
                         end
 
         default :       begin
                             axis_m_tdata <= 8'h00;
                             axis_m_tvalid <= 0;
                             axis_m_tlast <= 0;
+                            // axis_s_tready <= 1;
                         end
 
     endcase

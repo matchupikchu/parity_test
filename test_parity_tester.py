@@ -4,8 +4,10 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge
 from cocotb.regression import TestFactory
-# from utilities import SlaveDriver, MasterDriver, SlaveMonitor, MasterMonitor, Polynomial, Wx
 
+from test_drivers import SlaveDriver, MasterDriver
+from test_monitors import SlaveMonitor, MasterMonitor
+from test_utilities import ParityTester
    
 
 @cocotb.test()
@@ -61,6 +63,18 @@ def test_primitive(dut):
     yield RisingEdge(dut.a_clk)
     yield RisingEdge(dut.a_clk)
     yield RisingEdge(dut.a_clk)
+
+@cocotb.test()
+def test(dut):
+    
+    tb = ParityTester(dut)
+
+    tb.start_clock()
+
+    for _ in range(10):
+        x = random.randint(0, 2**16)
+
+        yield tb.axis_s_driver._driver_send(x)
     
     
     
