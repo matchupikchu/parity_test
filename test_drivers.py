@@ -30,7 +30,7 @@ class SlaveDriver(BusDriver):
         await Timer(10, "ns")
 
         self.log.info(f"Sending x = {data}")
-        self.log.info(f"Expected value of W(x) {parity_calculator(data)}")
+        self.log.info(f"Expected value of parity tester {parity_calculator(data)}")
         
         for data_i in data[:-1]:
             self.bus.tvalid.value = 1
@@ -60,14 +60,7 @@ class MasterDriver(BusDriver):
 
     def __init__(self, entity, name, clock, **kwargs):
         BusDriver.__init__(self, entity, name, clock, **kwargs)
-        self.bus.tready.value = 0
-        self.bus.tvalid.value = 0
-        self.bus.tdata.value  = 0
-        self.bus.tlast.value = 0
-    
-    def set_dut_master_ready(self):
         self.bus.tready.value = 1
         self.bus.tvalid.value = 0
         self.bus.tdata.value  = 0
         self.bus.tlast.value = 0
-        yield Timer(10, "ns")

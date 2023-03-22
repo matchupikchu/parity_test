@@ -50,12 +50,24 @@ class MasterMonitor(BusMonitor):
         
     @cocotb.coroutine
     def _monitor_recv(self):
-        
+        data_from_DUT = []
         while True:
             yield RisingEdge(self.clock)
             if self.tvalid.value == 1:
-                self.log.info(f"{self.name} tvalid {int(self.tvalid)}")
-                self.log.info(f"{self.name} tready {int(self.tready)}")
-                self.log.info(f"{self.name} tdata {hex(int(self.tdata))}")
+                data_from_DUT += [hex(int(self.tdata))]
+                if data_from_DUT[0] == '0xff':
+                    
+                    self.log.info(f"{self.name} tdata {data_from_DUT}")
+                    data_from_DUT = []
+
+                if len(data_from_DUT) == 3:
+                    
+                    # data_from_DUT = [i for i in data_from_DUT]
+                    self.log.info(f"{self.name} tdata {data_from_DUT}")
+                    data_from_DUT = []
+                
+                # self.log.info(f"{self.name} tvalid {int(self.tvalid)}")
+                # self.log.info(f"{self.name} tready {int(self.tready)}")
+                # self.log.info(f"{self.name} tdata {hex(int(self.tdata))}")
                 # assert Wx(int(self.entity.axis_s_tdata.value)) == int(self.entity.axis_m_tdata.value), f"{Wx(int(self.entity.axis_s_tdata.value))} {int(self.entity.axis_m_tdata.value)}"
         

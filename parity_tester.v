@@ -45,7 +45,6 @@ localparam FSM_fourth = 4;
 
 always @(posedge a_clk)
 begin
-
     if(axis_aresetn)
     begin
         r_data <= 0;
@@ -101,15 +100,10 @@ begin
                             axis_m_tdata <= 8'h00;
                             axis_m_tvalid <= 0;
                             axis_m_tlast <= 0;
-                            // axis_s_tready <= 1;
                         end
 
     endcase
 
-end
-
-always @(negedge a_clk)
-begin
     if((axis_s_tvalid == 1) && (axis_m_tready == 1))
     begin     
         r_data <= axis_s_tdata;
@@ -120,9 +114,7 @@ begin
 end
 
 
-
 assign w_parity = axis_s_tdata[7] ^ axis_s_tdata[6] ^ axis_s_tdata[5] ^ axis_s_tdata[4] ^ axis_s_tdata[3] ^ axis_s_tdata[2] ^ axis_s_tdata[1] ^ axis_s_tdata[0];
-
 
 
 endmodule

@@ -1,89 +1,39 @@
-import random
 
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import RisingEdge
-from cocotb.regression import TestFactory
 
-from test_drivers import SlaveDriver, MasterDriver
-from test_monitors import SlaveMonitor, MasterMonitor
-from test_utilities import ParityTester
-   
-import numpy as np
+from test_drivers import MasterDriver, SlaveDriver
+from test_monitors import MasterMonitor, SlaveMonitor
 
-# @cocotb.test()
-def test_primitive(dut):
-
-    clock = Clock(dut.a_clk, 10, units="ns")
-    cocotb.start(clock.start())
-
-    # expected_value = []
-
-    dut.axis_aresetn.value = 1
-    yield RisingEdge(dut.a_clk)
-
-    dut.axis_aresetn.value = 0
-    dut.axis_m_tready.value = 1
-    dut.axis_s_tvalid.value = 1
-    dut.axis_s_tdata.value = 8
-    dut.axis_s_tlast.value = 0
-    yield RisingEdge(dut.a_clk)
-
-    dut.axis_aresetn.value = 0
-    dut.axis_m_tready.value = 1
-    dut.axis_s_tvalid.value = 0
-    dut.axis_s_tdata.value = 8
-    dut.axis_s_tlast.value = 0
-    yield RisingEdge(dut.a_clk)
-
-    dut.axis_aresetn.value = 0
-    dut.axis_m_tready.value = 1
-    dut.axis_s_tvalid.value = 1
-    dut.axis_s_tdata.value = 0xa
-    dut.axis_s_tlast.value = 0
-    yield RisingEdge(dut.a_clk)
-
-    dut.axis_aresetn.value = 0
-    dut.axis_m_tready.value = 1
-    dut.axis_s_tvalid.value = 0
-    dut.axis_s_tdata.value = 0
-    dut.axis_s_tlast.value = 1
-    yield RisingEdge(dut.a_clk)
-
-    dut.axis_aresetn.value = 0
-    dut.axis_m_tready.value = 1
-    dut.axis_s_tvalid.value = 0
-    dut.axis_s_tdata.value = 0
-    dut.axis_s_tlast.value = 0
-    yield RisingEdge(dut.a_clk)
+from numpy import sum
 
 
-    yield RisingEdge(dut.a_clk)
-    yield RisingEdge(dut.a_clk)
-    yield RisingEdge(dut.a_clk)
-    yield RisingEdge(dut.a_clk)
-    yield RisingEdge(dut.a_clk)
-    yield RisingEdge(dut.a_clk)
-
-@cocotb.test()
-def test(dut):
+class TbParityTester(object):
+    def __init__(self, dut):
+        self.dut = dut
     
-    tb = ParityTester(dut)
-    
-    tb.start_clock()
+    def start_clock(self, clk_period = 10):
+        self.dut._log.info("Running clock")
+        cocotb.start_soon(Clock(self.dut.a_clk, clk_period,units='ns').start())
 
 
-    for _ in range(10):
-        x = random.sample(range(0, 256), 10)
+class ParityTester(TbParityTester):
+    def __init__(self, dut):
+        super(ParityTester, self).__init__(dut)
 
-        yield tb.axis_s_driver._driver_send(x)
-    
-    
-    
-    
+        self.dut = dut
+        self.expected_output = []
+        self.dut.axis_s_tvalid.value = 0 
+        self.dut.axis_m_tready.value = 0
+        self.dut.axis_s_tdata.value = 0
+        self.dut.axis_s_tlast.value = 0
 
-    # for _ in range(10):
+        self.axis_m_driver = MasterDriver(self.dut, "axis_m", dut.a_clk)
+        self.axis_s_driver = SlaveDriver(self.dut, "axis_s", dut.a_clk)
 
-        # x = random.randint(0, 2*16)
         
-        # await slave_driver._driver_send(x)
+        self.axis_m_monitor = MasterMonitor(self.dut, name = "axis_m",
+                                           clock = dut.a_clk)
+        self.axis_s_monitor = SlaveMonitor(self.dut, name = "axis_s",
+                                           clock = dut.a_clk)
+        
