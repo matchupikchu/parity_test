@@ -7,15 +7,15 @@ Axis interface was implemented with the use AMBA 4 AXI4-Stream Protocol Specific
 
 The whole interface consists of such signals as:
 - global signals:
--- a_clk - global clock,
--- axis_aresetn - global reset signal
+  - a_clk - global clock,
+  - axis_aresetn - global reset signal
 - slave side:
--- axis_s_tvalid - slave valid signal,
--- axis_s_t_data - slave 8 bit wide data bus,
--- axis_s_t_ready - slave ready signal, 
--- axis_s_tlast - slave last signal,
+  - axis_s_tvalid - slave valid signal,
+  - axis_s_t_data - slave 8 bit wide data bus,
+  - axis_s_t_ready - slave ready signal, 
+  - axis_s_tlast - slave last signal,
 - master side:
--- axis_m_tvalid - master valid signal,
--- axis_m_tdata - master bit wide data bus,
--- axis_m_tready - master ready signal,
--- axis_m_tlast - master last signal
+  - axis_m_tvalid - master valid signal,
+  - axis_m_tdata - master bit wide data bus,
+  - axis_m_tready - master ready signal,
+  - axis_m_tlast - master last signal
