@@ -1,7 +1,7 @@
 module parity_tester(
     a_clk, 
-    // master
     axis_aresetn,
+    // master
     axis_m_tvalid,
     axis_m_tdata,
     axis_m_tready,
