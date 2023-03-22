@@ -20,7 +20,12 @@ The whole interface consists of such signals as:
   - axis_m_tready - master ready signal,
   - axis_m_tlast - master last signal
   
-  ## Requirements
+## Requirements
   - Python 3.8.10 (or newer)
   - Cocotb 1.7.2
   - Icarus Verilog 10.3 
+
+## Example waveform
+![image](https://user-images.githubusercontent.com/56771910/226866094-17884604-7b21-42f9-904a-7f6e9126660a.png)
+
+
