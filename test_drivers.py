@@ -7,9 +7,9 @@ def bit_count(self):
 def parity_calculator(data):
     data_parity = [bit_count(i) for i in data]
     if sum(data_parity) % 2 == 1:
-        return [hex(0xff)]
+        return [0xff]
     else:
-        return [hex(0xab), hex(0x12), hex(0xde)]
+        return [0xab, 0x12, 0xde]
 
 class SlaveDriver(BusDriver):
     _signals = ["tvalid", "tready", "tdata", "tlast"]
