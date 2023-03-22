@@ -1,6 +1,6 @@
 import cocotb
 from cocotb_bus.monitors import BusMonitor
-from cocotb.triggers import RisingEdge, Timer
+from cocotb.triggers import RisingEdge
 from test_drivers import parity_calculator
 
 class SlaveMonitor(BusMonitor):
