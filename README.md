@@ -19,3 +19,8 @@ The whole interface consists of such signals as:
   - axis_m_tdata - master bit wide data bus,
   - axis_m_tready - master ready signal,
   - axis_m_tlast - master last signal
+  
+  ## Requirements
+  - Python 3.8.10 (or newer)
+  - Cocotb 1.7.2
+  - Icarus Verilog 10.3 
