@@ -27,7 +27,7 @@ class SlaveDriver(BusDriver):
         await Timer(10, "ns")
 
         self.entity.axis_aresetn.value = 0
-        await Timer(10, "ns")
+        # await Timer(10, "ns")
 
         self.log.info(f"Sending x = {data}")
         self.log.info(f"Expected value of parity tester {parity_calculator(data)}")
@@ -39,12 +39,12 @@ class SlaveDriver(BusDriver):
 
 
         self.bus.tvalid.value = 1
-        self.bus.tlast.value = 0
+        self.bus.tlast.value = 1
         self.bus.tdata.value = data[-1]
         await Timer(10, "ns")
         
         self.bus.tvalid.value = 0
-        self.bus.tlast.value = 1
+        self.bus.tlast.value = 0
         self.bus.tdata.value = 0
         await Timer(10, "ns")
 
